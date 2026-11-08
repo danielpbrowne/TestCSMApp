@@ -1,0 +1,162 @@
+@font-face{font-family:Outfit;src:url('./assets/fonts/outfit-latin.woff2') format('woff2');font-style:normal;font-weight:400 700;font-display:swap}
+@font-face{font-family:Urbanist;src:url('./assets/fonts/urbanist-latin.woff2') format('woff2');font-style:normal;font-weight:400 700;font-display:swap}
+:root{
+  --ink:#192f3e;
+  --navy:#21394a;
+  --navy-deep:#142b3b;
+  --muted:#66757d;
+  --line:#d7dfe1;
+  --canvas:#edf0ef;
+  --paper:#f7f7f2;
+  --white:#fff;
+  --amber:#d9b653;
+  --amber-soft:#f5edcf;
+  --sage:#8ea39b;
+  --shadow:0 12px 32px #1c33420d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);font:19px/1.55 Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.topbar{height:76px;padding:0 max(5vw,24px);display:flex;align-items:center;justify-content:space-between;background:var(--navy-deep);border-bottom:1px solid #314957;color:#f7f7f2}
+.brand{display:flex;gap:12px;align-items:center;color:inherit;text-decoration:none}
+.brand-logo{width:42px;height:42px;object-fit:contain;flex:0 0 auto}
+.brand strong{display:block;font-size:17px;letter-spacing:.1px}
+.brand small{display:block;color:#b5c1c5;font-size:14px}
+.top-actions{display:flex;align-items:center;gap:16px}
+.offline-pill{font:13px ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:.08em;color:#c8d5ce}
+.offline-pill i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#91b39b;margin-right:7px}
+.icon-button{border:1px solid #697a82;background:transparent;border-radius:20px;padding:8px 15px;color:#f7f7f2;font:600 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}
+.icon-button:hover{background:#294354}
+.update-button{display:flex;align-items:center;gap:6px;border:1px solid #697a82;background:transparent;border-radius:20px;padding:7px 12px;color:#f7f7f2;font:600 14px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}
+.update-button:hover:not(:disabled){background:#294354}.update-button:disabled{opacity:.7;cursor:wait}.update-button>span:first-child{font-size:18px;line-height:1}
+main{max-width:1120px;margin:auto;padding:0 30px}
+.welcome{position:relative;display:flex;min-height:300px;margin-top:35px;background:var(--navy);overflow:hidden;border-radius:8px;color:#f8f8f3;padding:45px 54px;align-items:center;box-shadow:var(--shadow)}
+.welcome-copy{position:relative;z-index:1;max-width:490px}
+.eyebrow,.section-kicker{font:13px ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;color:#e3c66d}
+.welcome-copy>.eyebrow{font-size:16px;font-weight:700}
+.welcome h1{font:500 clamp(38px,calc(5.4vw - 2px),56px)/1.03 Outfit,Urbanist,sans-serif;letter-spacing:-1.8px;margin:14px 0}
+.welcome h1 em{color:#e5d59d;font-weight:500}
+.intro{font-size:18px;color:#d5dedf;max-width:410px;margin:17px 0 0}
+.welcome-art{position:absolute;right:5%;top:0;width:40%;height:100%;opacity:.95}
+.sun{position:absolute;width:172px;height:172px;border:1px solid #d6c17445;border-radius:50%;top:48px;right:27px;background:radial-gradient(circle,#d8c57a12 0 55%,transparent 56%)}
+.route-line{position:absolute;width:270px;height:145px;border:1px solid #bbc8c160;border-color:#bbc8c160 transparent transparent transparent;border-radius:50%;transform:rotate(-18deg);top:102px;right:-12px}
+.plane{position:absolute;top:94px;right:159px;font-size:19px;color:#e5d59d;transform:rotate(-14deg)}
+.art-label{position:absolute;right:4px;bottom:32px;font:12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.1em;color:#c5d0ce}
+.search-wrap{position:relative;margin:22px auto 30px;max-width:680px;z-index:3}
+.search-box{height:54px;display:flex;align-items:center;gap:13px;background:var(--paper);padding:0 17px;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);color:#61717a}
+.search-box>span{font-size:25px;line-height:0;color:#9d8240}
+.search-box input{flex:1;border:0;outline:0;color:var(--ink);background:transparent;font:18px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.search-box input::placeholder{color:#7d898c}
+.search-box kbd{font:12px ui-monospace,SFMono-Regular,monospace;border:1px solid var(--line);border-radius:3px;padding:4px 6px;color:#728087}
+.search-results{position:absolute;top:59px;left:0;right:0;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);max-height:290px;overflow:auto;border-radius:6px}
+.result{display:flex;width:100%;text-align:left;gap:12px;align-items:center;padding:12px 16px;background:var(--paper);border:0;border-bottom:1px solid #e6e9e6;cursor:pointer;color:var(--ink)}
+.result:hover{background:#eef0eb}
+.result .result-tag{font:12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.08em;color:#8c753a;min-width:70px}
+.result strong{font-size:17px}.result small{display:block;color:var(--muted);font-size:15px}
+.quick-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #d2dadd;border-left:1px solid #d2dadd;margin-bottom:44px;border-radius:7px;overflow:hidden;box-shadow:0 5px 18px #1c334208}
+.quick-links-hint{display:none}
+.quick-links button{position:relative;text-align:left;height:75px;padding:15px 17px;background:#f5f6f1;border:0;border-right:1px solid #d2dadd;border-bottom:1px solid #d2dadd;font:600 16px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);cursor:pointer;transition:background .18s}
+.quick-links button:hover,.quick-links button.active{background:#e7ebea}
+.quick-links button.active{box-shadow:inset 0 3px 0 var(--amber)}
+.quick-links button span{display:block;font:12px ui-monospace,SFMono-Regular,monospace;color:#8b9698;margin-bottom:4px}
+.quick-links button b{position:absolute;right:15px;bottom:15px;color:#8e7537;font-weight:500}
+.content-area{min-height:240px;scroll-margin-top:18px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.section-head h2{font:500 32px/1.1 Outfit,Urbanist,sans-serif;margin:3px 0 0;letter-spacing:-.5px;color:var(--navy-deep)}
+.section-kicker{color:#8b753c}
+.section-head p{margin:0;color:var(--muted);font-size:16px}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.card{background:var(--paper);border:1px solid var(--line);padding:20px 21px;border-radius:7px;box-shadow:0 4px 14px #1c334206}
+.card .card-tag{font:12px ui-monospace,SFMono-Regular,monospace;color:#8b753c;letter-spacing:.1em;text-transform:uppercase}
+.card h3{font:600 17px/1.2 Outfit,Urbanist,sans-serif;margin:9px 0 5px;letter-spacing:-.2px;color:var(--navy-deep)}
+.card p{color:var(--muted);font-size:16px;line-height:1.6;margin:0}
+.card .card-foot{border-top:1px solid #e5e8e2;padding-top:12px;margin-top:17px;font:12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;color:#7c898b}
+.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.info-block{background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:20px}
+.info-block h3{margin:0 0 10px;font-size:16px;color:var(--navy-deep)}
+.info-block p,.info-block li{font-size:16px;color:var(--muted)}
+.info-block ul{padding-left:18px;margin:8px 0}
+.notice{background:var(--amber-soft);border:1px solid #eadcae;border-left:3px solid var(--amber);border-radius:4px;padding:12px 14px;color:#665624;font-size:15px;margin:0 0 14px}
+.destination-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.destination{display:flex;justify-content:space-between;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 18px;color:var(--ink);text-align:left;cursor:pointer;transition:border .18s,background .18s}
+.destination:hover{border-color:#baaa71;background:#fbfbf6}
+.destination strong{font-size:18px}.destination span{font:12px ui-monospace,SFMono-Regular,monospace;color:#8d773d}
+.destination-name{display:flex;flex-direction:column;gap:2px}.destination-name small{font:12px ui-monospace,SFMono-Regular,monospace;color:#78868a}
+.empty{background:var(--paper);border:1px dashed #c3cdd0;border-radius:6px;padding:26px;color:var(--muted);font-size:16px}
+.empty strong{color:var(--ink);display:block;margin-bottom:5px}
+.profile-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;background:var(--navy);color:#f7f7f2;border-radius:7px;padding:14px 17px;margin:0 0 12px;box-shadow:var(--shadow)}
+.profile-meta>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.profile-meta span{font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.08em;color:#e3c66d}
+.profile-meta strong{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.profile-fields{margin-top:8px}
+.coordination-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.contact-card,.contact-extra{min-width:0;background:#fff;border:1px solid #e1e6e3;border-radius:6px;padding:12px}
+.contact-role{display:block;font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.07em;color:#8b753c}
+.contact-card h3{font:600 17px/1.2 Outfit,Urbanist,sans-serif;color:var(--navy-deep);margin:6px 0 10px;overflow-wrap:anywhere}
+.contact-actions{display:grid;gap:7px}
+.contact-action{display:flex;min-height:44px;flex-direction:column;justify-content:center;gap:2px;padding:7px 9px;border:1px solid #dfe5e2;border-radius:5px;background:#f4f6f2;color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.contact-action span{font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;color:#7b8988}
+.contact-action strong{font:600 14px/1.3 Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--navy-deep);overflow-wrap:anywhere}
+.contact-action:hover{border-color:#c3ac65;background:#fbfbf6}
+.contact-missing{font-size:14px;color:var(--muted)}
+.contact-extra{display:flex;flex-direction:column;gap:8px;justify-content:center}
+.contact-extra>strong{font-size:14px;color:var(--navy-deep)}
+.profile-record{border-top:1px solid #e5e8e2;padding:10px 0}
+.profile-record:first-child{border-top:0;padding-top:0}
+.profile-record-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.profile-record-heading strong{font-size:15px;color:var(--navy-deep)}
+.profile-value{font-size:16px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;margin-top:4px}
+.map-action{display:inline-flex;align-items:center;min-height:40px;margin-top:6px;padding:0 10px;border:1px solid #dfe5e2;border-radius:5px;background:#f4f6f2;color:#6e5a24;font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;text-decoration:none}
+.map-action:hover{border-color:#c3ac65;background:#fbfbf6}
+.record-source{font:12px/1.5 ui-monospace,SFMono-Regular,monospace;color:#7c898b;margin-top:5px;overflow-wrap:anywhere}
+.review-badge{display:inline-flex;align-items:center;flex:0 0 auto;border-radius:3px;padding:3px 6px;font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.02em}
+.review-badge.needs-source{background:var(--amber-soft);color:#6b551a}
+.review-badge.marked-verified{background:var(--green);color:#385d43}
+.empty-profile{border-style:dashed;box-shadow:none}
+.empty-profile p{color:var(--muted);font-size:16px;margin:12px 0 2px}
+.back-button{border:0;background:transparent;color:#766431;font:14px ui-monospace,SFMono-Regular,monospace;cursor:pointer;padding:0;margin-bottom:10px}
+.aircraft-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.aircraft-card{scroll-margin-top:18px}.aircraft-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.aircraft-total{font:500 24px Georgia,serif;color:var(--navy-deep);white-space:nowrap}.aircraft-total small{font:13px ui-monospace,SFMono-Regular,monospace;color:var(--muted)}
+.seat-bar{height:32px;display:flex;overflow:hidden;border-radius:5px;margin:17px 0 9px;background:#e5e9e5}.seat-zone{width:var(--zone);min-width:0;display:flex;flex:0 0 var(--zone);align-items:center;justify-content:center;padding:0 2px;background:#21394a;color:#f7f7f2;border-right:1px solid #f7f7f2}.seat-zone:nth-child(2){background:#758c88}.seat-zone:nth-child(3){background:#c5d0cb;color:#203745;border:0}.seat-zone strong{font:600 12px ui-monospace,SFMono-Regular,monospace}.seat-legend{display:flex;gap:13px;flex-wrap:wrap;color:var(--muted);font:12px ui-monospace,SFMono-Regular,monospace}.seat-legend b{color:var(--navy-deep)}
+.aircraft-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid #e5e8e2;margin-top:15px;padding-top:13px}.aircraft-stats div,.registration-list{display:flex;flex-direction:column;gap:4px;min-width:0}.aircraft-stats span,.registration-list>span{font:11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;color:#7c898b}.aircraft-stats strong{font-size:16px;color:var(--navy-deep);overflow-wrap:anywhere}.registration-list{border-top:1px solid #e5e8e2;margin-top:12px;padding-top:11px}.registration-list p{font:14px/1.6 ui-monospace,SFMono-Regular,monospace;color:var(--muted);margin:0;overflow-wrap:anywhere}
+footer{display:flex;justify-content:space-between;padding:26px 0 35px;margin-top:37px;border-top:1px solid #d2dadd;font:12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;color:#76858a}
+footer i{font-style:normal;color:#c29339}#cache-note{letter-spacing:0;text-transform:none;font:14px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#718084}
+@media(max-width:760px){main{padding:0 17px}.topbar{height:66px;padding:0 17px}.welcome{min-height:290px;margin-top:18px;padding:32px 26px}.welcome-art{width:45%;right:-9%;opacity:.55}.welcome-copy{max-width:420px}.quick-links{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:32px}.card-grid,.destination-list{grid-template-columns:repeat(2,1fr)}.section-head{display:block}.section-head p{margin-top:6px}footer{gap:12px;flex-wrap:wrap}}
+@media(max-width:480px){.welcome{padding:27px 22px;min-height:285px}.welcome h1{font-size:clamp(36px,calc(10vw - 2px),40px);line-height:1.04}.intro{max-width:260px;font-size:17px}.welcome-art{right:-28%;width:65%;opacity:.36}.search-box{height:50px}.search-box kbd{display:none}.card-grid,.destination-list,.detail-layout{grid-template-columns:1fr}.quick-links button{height:68px;padding:12px}.quick-links button b{right:12px;bottom:14px}.offline-pill{font-size:11px}.icon-button{padding:7px 10px}}
+@media(max-width:600px){
+  html{scroll-padding-top:82px}
+  body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+  .topbar{position:sticky;top:0;z-index:10;height:calc(60px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 15px 0}
+  .brand{gap:9px}.brand-logo{width:36px;height:36px}.brand strong{font-size:16px}.brand small{font-size:13px}
+  .top-actions{gap:9px}.offline-pill{font-size:11px;white-space:nowrap}.icon-button{min-height:40px}
+  .update-button{width:36px;height:36px;justify-content:center;padding:0}.update-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  main{width:100%;padding:0 15px}
+  .welcome{min-height:218px;margin-top:14px;padding:25px 21px;border-radius:7px}
+  .welcome-copy{max-width:100%}.welcome h1{font-size:clamp(38px,calc(10.5vw - 2px),42px);letter-spacing:-1.2px;margin:10px 0}
+  .intro{max-width:285px;font-size:17px;line-height:1.5;margin-top:12px}
+  .welcome-art{right:-6%;width:39%;opacity:.36}.sun{width:128px;height:128px;right:8px;top:42px}.route-line{width:195px;height:106px;top:85px;right:-27px}.plane{right:102px;top:83px;font-size:16px}.art-label{right:0;bottom:20px;font-size:10px}
+  .search-wrap{margin:14px 0 17px;max-width:none}.search-box{height:52px;padding:0 14px;border-radius:6px}.search-box input{font-size:20px}
+  .quick-links{display:flex;gap:7px;width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity;margin:0 0 3px;padding:1px 0 5px;border:0;border-radius:0;box-shadow:none}
+  .quick-links::-webkit-scrollbar{display:none}
+  .quick-links-hint{display:block;margin:0 0 19px 2px;color:#78868a;font:italic 700 12px/1.3 Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .quick-links button{flex:0 0 auto;display:flex;align-items:center;gap:7px;height:46px;min-width:unset;padding:0 13px;border:1px solid #cbd4d8;border-radius:6px;background:#f5f6f1;scroll-snap-align:start;font-size:15px;white-space:nowrap}
+  .quick-links button span{display:inline;margin:0;color:#8b753c;font-size:11px}.quick-links button b{position:static;margin-left:2px;font-size:16px}
+  .quick-links button.active{border-color:#c3ac65;box-shadow:inset 0 -2px 0 var(--amber)}
+  .content-area{min-height:190px;scroll-margin-top:78px}
+  .section-head{margin-bottom:14px}.section-head h2{font-size:28px;line-height:1.12}.section-head p{font-size:16px;line-height:1.5}
+  .notice{font-size:15px;line-height:1.5;padding:11px 12px;margin-bottom:12px}
+  .destination-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .destination{min-height:54px;padding:11px 12px;gap:5px}.destination strong{font-size:16px}.destination span{font-size:11px;white-space:nowrap}
+  .card-grid,.detail-layout,.aircraft-grid{grid-template-columns:1fr;gap:9px}
+  .profile-meta{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;padding:13px 14px}
+  .profile-grid{grid-template-columns:1fr}.coordination-grid{grid-template-columns:1fr}
+  .card,.info-block{padding:17px 16px;border-radius:6px}.card h3{font-size:16px}.card p,.info-block p,.info-block li{font-size:17px;line-height:1.55}
+  .card .card-foot{margin-top:13px;padding-top:10px;font-size:11px}
+  .back-button{min-height:40px;padding:8px 0}
+  footer{gap:8px;flex-direction:column;margin-top:28px;padding:20px 0 calc(24px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){
+  .topbar{padding-left:11px;padding-right:11px}.brand{gap:7px}.brand-logo{width:32px;height:32px}.brand strong{font-size:15px}.brand small{font-size:12px}.top-actions{gap:6px}.offline-pill{font-size:10px}
+  main{padding-left:11px;padding-right:11px}.welcome{padding-left:17px;padding-right:17px}.destination{padding:10px 9px}.destination strong{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
