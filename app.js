@@ -2,13 +2,13 @@ const data = window.CSM_DATA;
 
 const sections = {
   destinations: { title: 'Destination Guide', desc: 'Airport, station and hotel details for each destination.' },
-  aircraft: { title: 'Aircraft Types', desc: 'Visual cabin seating, capacity, crew seats and registrations from the fleet workbook.' },
+  aircraft: { title: 'Aircraft Types', desc: 'Aircraft Seating Capacity and Registrations' },
   flight: {
-    title: 'Flight & duty', desc: 'Flight briefing references and current duty guidance.',
+    title: 'Flight & Duty', desc: 'Flight & Duty Information',
     cards: [
-      ['FLIGHT DETAILS', 'Flight information', 'Route, flight numbers, block times, days of operation and destination terminal.'],
-      ['FDP', 'Flight duty period', 'Current approved FDP tables, acclimatisation rules, references and links to the controlling manual.'],
-      ['COLLECTIVE AGREEMENTS', 'Crew guidance', 'Keep the applicable collective agreement and official company documents easy to reach.']
+      ['BASIC FDP', 'Basic Maximum Daily FDP', 'Basic maximum FDP by start of FDP at reference time and sector count, for 1–2, 3, or 4 sectors.'],
+      ['ACCLIMATISATION', 'Acclimatised Definition', 'Definitions of acclimatised and reference time. State table by time difference under 4, 4–6, over 6–9, over 9–12 hours and elapsed time since reporting: under 48, 48–71:59, 72–95:59, 96–119:59, or 120 hours and over. B, D, X.'],
+      ['NINTH CREW MEMBER', '9th Crew Member Protocol', 'Transatlantic, 13-hour FDP threshold, Crew Control, DOM, CBP, eight crew, unknown delay at 13 hours 15 minutes, and short-crew credits of 10 or 28 per crew member.']
     ]
   },
   ife: {
@@ -72,7 +72,41 @@ function caution(text) {
 }
 
 function renderCards(cards) {
-  return `<div class="card-grid">${cards.map(card => `<article class="card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])}</p><div class="card-foot">NOT POPULATED FROM THE PROVIDED WORKBOOKS</div></article>`).join('')}</div>`;
+  return `<div class="card-grid">${cards.map(card => {
+    if (card[0] === 'BASIC FDP') return renderBasicFdpCard(card);
+    if (card[0] === 'ACCLIMATISATION') return renderAcclimatisationCard(card);
+    if (card[0] === 'NINTH CREW MEMBER') return renderNinthCrewCard(card);
+    return `<article class="card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])}</p><div class="card-foot">NOT POPULATED FROM THE PROVIDED WORKBOOKS</div></article>`;
+  }).join('')}</div>`;
+}
+
+function renderBasicFdpCard(card) {
+  const rows = [
+    ['06:00–13:29', '13:00', '12:30', '12:00'], ['13:30–13:59', '12:45', '12:15', '11:45'],
+    ['14:00–14:29', '12:30', '12:00', '11:30'], ['14:30–14:59', '12:15', '11:45', '11:15'],
+    ['15:00–15:29', '12:00', '11:30', '11:00'], ['15:30–15:59', '11:45', '11:15', '10:45'],
+    ['16:00–16:29', '11:30', '11:00', '10:30'], ['16:30–16:59', '11:15', '10:45', '10:15'],
+    ['17:00–04:59', '11:00', '10:30', '10:00'], ['05:00–05:14', '12:00', '11:30', '11:00'],
+    ['05:15–05:29', '12:15', '11:45', '11:15'], ['05:30–05:44', '12:30', '12:00', '11:30'],
+    ['05:45–05:59', '12:45', '12:15', '11:45']
+  ];
+  const body = rows.map(([time, oneTwo, three, four]) => `<tr><th scope="row">${time}</th><td>${oneTwo}</td><td>${three}</td><td>${four}</td></tr>`).join('');
+  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])} The table shows maximum FDP without extension for acclimatised crew.</p><div class="fdp-table-scroll" role="region" tabindex="0" aria-label="Basic maximum daily FDP table"><table class="fdp-table fdp-basic-table"><thead><tr><th rowspan="2" scope="col">Start of FDP at reference time</th><th colspan="3" scope="colgroup">Sectors</th></tr><tr><th scope="col">1–2</th><th scope="col">3</th><th scope="col">4</th></tr></thead><tbody>${body}</tbody></table></div><small class="fdp-table-hint">Swipe horizontally if needed to view all columns.</small><small class="fdp-source-note">Source: Operations Manual Part A Cabin, PAC 08, Issue 1, Revision 8 · approved 02 April 2025. Sector columns 5 and 6 are omitted as requested.</small></article>`;
+}
+
+function renderAcclimatisationCard(card) {
+  const rows = [
+    ['< 4', 'B', 'D', 'D', 'D', 'D'],
+    ['≥ 4 and ≤ 6', 'B', 'X', 'D', 'D', 'D'],
+    ['> 6 and ≤ 9', 'B', 'X', 'X', 'D', 'D'],
+    ['> 9 and ≤ 12', 'B', 'X', 'X', 'X', 'D']
+  ];
+  const body = rows.map(([difference, ...states]) => `<tr><th scope="row">${escapeHtml(difference)}</th>${states.map(state => `<td>${state}</td>`).join('')}</tr>`).join('');
+  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p><strong>“Acclimatised” means</strong> a state in which a crew member’s circadian biological clock is synchronised to the time zone where the crew member is. A crew member is considered to be acclimatised to a 2-hour wide time zone surrounding the local time at the point of departure. When the local time at the place where a duty commences differs by more than 2 hours from the local time at the place where the next duty starts, the crew member, for the calculation of the maximum daily flight duty period, is considered to be acclimatised in accordance with the values in the table below.</p><p><strong>“Reference time” means</strong> the local time at the reporting point situated in a 2-hour wide time zone band around the local time where a crew member is acclimatised.</p><p>Compare the time difference between reference time and the local time where the crew member starts the next duty with the time elapsed since reporting at reference time.</p><div class="fdp-table-scroll" role="region" tabindex="0" aria-label="Acclimatisation state table"><table class="fdp-table fdp-acclim-table"><thead><tr><th rowspan="2" scope="col">Time difference (h)</th><th colspan="5" scope="colgroup">Time elapsed since reporting at reference time</th></tr><tr><th scope="col">&lt;48</th><th scope="col">48–71:59</th><th scope="col">72–95:59</th><th scope="col">96–119:59</th><th scope="col">≥120</th></tr></thead><tbody>${body}</tbody></table></div><small class="fdp-table-hint">Swipe horizontally to see all time intervals.</small><div class="fdp-code-legend"><span><b>B</b> Acclimatised to the local time of the departure time zone.</span><span><b>D</b> Acclimatised to the local time where the crew member starts the next duty.</span><span><b>X</b> Unknown state of acclimatisation.</span></div><small class="fdp-source-note">Manual reference: Operations Manual Part A Cabin, PAC 08, Issue 1, Revision 8 · approved 02 April 2025.</small></article>`;
+}
+
+function renderNinthCrewCard(card) {
+  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])}</p><div class="protocol-steps"><section><h4>When to plan one</h4><p>For transatlantic flights, make every effort to provide a ninth crew member when it is known that the FDP will exceed 13 hours.</p></section><section><h4>Starting the process</h4><p>As soon as it becomes apparent that the maximum FDP will be exceeded and a ninth crew member is required, Crew Control and the Duty Operations Manager (DOM) start the assignment process. The CSM or operating Number 1 liaises with the DOM, gathers delay information and keeps the crew updated.</p></section><section><h4>If a ninth crew member is unavailable</h4><p>The CSM should tell the crew why, actively manage the situation and provide timely information to Crew Control and the DOM. The protocol says a flight may depart with eight crew under its conditions and the referenced CSM guidelines. If adding the ninth would cause further delay because CBP has closed after the flight has cleared, the CSM or operating Number 1 confirms departure with eight after considering those guidelines.</p></section><section><h4>Short-crew credits</h4><div class="fdp-table-scroll"><table class="fdp-table protocol-credit-table"><thead><tr><th scope="col">Situation in the protocol</th><th scope="col">Credits per crew member</th></tr></thead><tbody><tr><th scope="row">Standard short-crew payment</th><td>10</td></tr><tr><th scope="row">Eight operate where a ninth would normally be provided</th><td>28</td></tr><tr><th scope="row">Unknown delay: maximum FDP exceeds 13 h 15 min</th><td>28</td></tr><tr><th scope="row">Unknown delay: maximum FDP is less than 13 h 15 min</th><td>10</td></tr></tbody></table></div><p class="protocol-note">The addendum does not specify the credit at exactly 13 h 15 min.</p></section><section><h4>When the ninth is provided</h4><p>The ninth crew member is surplus to the operating crew and should be used to support in-flight rest. Duty and rest should remain balanced among the operating cabin crew.</p></section></div><div class="protocol-note-box">The protocol refers to a separate “CSM Guideline re Ninth Crew Member” for the decision to depart without a ninth crew member. That guideline was not included in the supplied document.</div><a class="fdp-reference-link" href="./assets/ninth-crew-member-protocol.pdf" target="_blank" rel="noopener"><span>OPEN SOURCE PROTOCOL</span><strong>Execution version and addendum ↗</strong></a><small class="fdp-source-note">Protocol dated 14 December 2018 · addendum dated 12 September 2019.</small></article>`;
 }
 
 function renderDestinations() {
@@ -230,7 +264,7 @@ function openSection(id) {
   const section = sections[id];
   if (!section) return;
   content.innerHTML = heading('QUICK REFERENCE', section.title, section.desc)
-    + caution('This section has not been populated from the two provided workbooks yet.')
+    + (id === 'flight' ? '' : caution('This section has not been populated from the two provided workbooks yet.'))
     + renderCards(section.cards || []);
 }
 
@@ -249,7 +283,7 @@ const searchable = [
     ...aircraft.registrations.map(registration => ({ id: 'aircraft', title: registration, tag: aircraft.type, detail: `${aircraft.total} passenger seats · ${aircraft.cabinCrewSeats} cabin crew seats`, aircraftId: aircraftId(aircraft) }))
   ]),
   ...Object.entries(sections).filter(([id]) => !['destinations', 'aircraft'].includes(id)).map(([id, section]) => ({ id, title: section.title, tag: 'SECTION', detail: section.desc })),
-  ...Object.entries(sections).flatMap(([id, section]) => (section.cards || []).map(card => ({ id, title: card[1], tag: card[0], detail: section.title })))
+  ...Object.entries(sections).flatMap(([id, section]) => (section.cards || []).map(card => ({ id, title: card[1], tag: card[0], detail: card[2] })))
 ];
 
 function showResults(query) {
