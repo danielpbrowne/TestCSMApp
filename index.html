@@ -5,40 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#142b3b">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="CSM Companion">
+  <meta name="apple-mobile-web-app-title" content="Flight Companion">
   <meta name="description" content="Offline-first Cabin Service Manager reference for Aer Lingus long-haul operations.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=fdp2">
-  <title>CSM Companion</title>
+  <link rel="stylesheet" href="styles.css?v=useful-contacts2">
+  <title>Flight Companion</title>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="CSM Companion home"><img class="brand-logo" src="assets/aer-lingus-shamrock.png" alt="Aer Lingus Shamrock"><span><strong>CSM Companion</strong><small>Long-haul quick reference</small></span></a>
+    <a class="brand" href="#home" aria-label="Flight Companion home"><img class="brand-logo" src="assets/aer-lingus-shamrock.png" alt="Aer Lingus Shamrock"><span><strong>Flight Companion</strong><small id="information-updated">Info updated: 8 Nov 2026</small></span></a>
     <div class="top-actions"><span class="offline-pill"><i></i><span id="connection-status">Offline ready</span></span><button class="update-button" id="update-button" type="button" aria-label="Check for updates" title="Check for updates"><span aria-hidden="true">↻</span><span class="update-label">Update</span></button><button class="icon-button" id="install-button" hidden>Install</button></div>
   </header>
   <main>
     <section class="welcome" id="home">
-      <div class="welcome-copy"><p class="eyebrow">CABIN SERVICE MANAGER</p><h1>What you need,<br><em>within reach.</em></h1><p class="intro">Quick &amp; Searchable useful information.</p></div>
-      <div class="welcome-art" aria-hidden="true"><span class="sun"></span><span class="route-line"></span><span class="plane">✈</span><span class="art-label">DUB&nbsp; · &nbsp;LONG HAUL</span></div>
+      <div class="welcome-copy"><p class="eyebrow">CABIN SERVICE MANAGER &amp; SENIOR FLIGHT COMPANION</p><h1>What you need,<br><em>within reach.</em></h1><p class="intro">North America</p></div>
     </section>
     <section class="search-wrap" aria-label="Search reference">
-      <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search destinations, aircraft, contacts…" autocomplete="off"><kbd>⌘ K</kbd></label>
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search destinations, aircraft, flight info…" autocomplete="off"><kbd>⌘ K</kbd></label>
       <div id="search-results" class="search-results" hidden></div>
     </section>
     <section class="quick-links" aria-label="Quick links">
-      <button data-section="destinations"><span>01</span>Destinations <b>→</b></button>
+      <button data-section="flightInfo"><span>01</span>Flight Information <b>→</b></button>
       <button data-section="aircraft"><span>02</span>Aircraft <b>→</b></button>
-      <button data-section="flight"><span>03</span>Flight &amp; Duty <b>→</b></button>
-      <button data-section="ife"><span>04</span>IFE &amp; Wi-Fi <b>→</b></button>
-      <button data-section="crew"><span>05</span>Crew admin <b>→</b></button>
-      <button data-section="contacts"><span>06</span>Contacts &amp; links <b>→</b></button>
+      <button data-section="destinations"><span>03</span>Destinations <b>→</b></button>
+      <button data-section="flight"><span>04</span>Flight &amp; Duty <b>→</b></button>
+      <button data-section="ife"><span>05</span>IFE &amp; Wi-Fi <b>→</b></button>
+      <button data-section="crew"><span>06</span>Crew Admin <b>→</b></button>
+      <button data-section="contacts"><span>07</span>Useful Contacts &amp; Links <b>→</b></button>
     </section>
     <p class="quick-links-hint">Scroll across for more</p>
     <section class="content-area" id="content-area" aria-live="polite"></section>
-    <footer><span>CSM COMPANION <i>·</i> OFFLINE REFERENCE</span><span id="cache-note">Core pages are stored on this device.</span></footer>
+    <footer><span>FLIGHT COMPANION <i>·</i> OFFLINE REFERENCE</span><span id="cache-note">Core pages are stored on this device.</span></footer>
   </main>
-  <script src="reference-data.js?v=fleet1"></script>
-  <script src="app.js?v=fdp2"></script>
+  <script src="reference-data.js?v=sources-sync1"></script>
+  <script src="app.js?v=useful-contacts2"></script>
 </body>
 </html>

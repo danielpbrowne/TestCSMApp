@@ -1,8 +1,140 @@
 window.CSM_DATA = {
+  "informationLastUpdated": "2026-11-09",
   "sources": {
     "destinations": "Reference Material/CSM_Destination_Source_Register_Master.xlsx",
-    "aircraft": "Reference Material/Aircraft_Fleet_Details.xlsx"
+    "aircraft": "Reference Material/Aircraft_Fleet_Details.xlsx",
+    "usefulLinks": "Reference Material/Useful_Links_Forms.xlsx",
+    "usefulContacts": "Reference Material/Useful_Links_Forms.xlsx#Useful Contact Info"
   },
+  "usefulLinks": [
+    {
+      "title": "eCrew",
+      "url": "https://ecrew.aerlingus.com/eCrew"
+    },
+    {
+      "title": "Crew Bids",
+      "url": "https://crewbid02.ein.jepphost.com/"
+    },
+    {
+      "title": "Crew Bids User Guide",
+      "url": "https://vimeo.com/user/13097399/folder/16671335"
+    },
+    {
+      "title": "Pelesys (Online Training)",
+      "url": "https://eicabin.pelesys.com/GC/Home/Enrollments?enrollment_id=fcb11c44-52d3-426c-816f-2d48609997ce"
+    },
+    {
+      "title": "SafetyNet",
+      "url": "https://login.vistair.com/login"
+    },
+    {
+      "title": "MyView",
+      "url": "https://aerlingus.myview.zellis.com/dashboard/dashboard-ui/index.html#/landing"
+    },
+    {
+      "title": "AerWaves",
+      "url": "https://aerlingus.workvivo.com/"
+    },
+    {
+      "title": "MyUniform",
+      "url": "https://aerlingus.incorporateweb.co.uk/"
+    },
+    {
+      "title": "Aer Lingus Email (Outlook)",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/outlook/log-in"
+    },
+    {
+      "title": "API CrewCare",
+      "url": "https://api2.apicrewcare.com/Main/Login.aspx?url=%2fMain%2fHome.aspx"
+    },
+    {
+      "title": "IT Service Portal",
+      "url": "https://iagprod.service-now.com/idp_iaggbs"
+    },
+    {
+      "title": "Account Unlock & Password Reset",
+      "url": "https://passwordreset.microsoftonline.com/"
+    },
+    {
+      "title": "US Visa Application Site",
+      "url": "https://ceac.state.gov/genniv/"
+    },
+    {
+      "title": "US VISA Payment Site",
+      "url": "https://usvisa-info.com/"
+    }
+  ],
+  "usefulForms": [
+    {
+      "title": "Trip Trade Swap Exception Form",
+      "url": "https://forms.office.com/e/sk03R9dUYJ"
+    },
+    {
+      "title": "Return to Work Form",
+      "url": "https://forms.office.com/e/ARHjUduYcb"
+    },
+    {
+      "title": "Name Badge Order Form",
+      "url": "https://forms.office.com/e/2kemiuyQeR"
+    }
+  ],
+  "usefulContacts": [
+    {
+      "name": "Inflight Operations",
+      "phone": "+353 1 8868600",
+      "email": "crewoperations@aerlingus.com"
+    },
+    {
+      "name": "Inflight Operations Mobile",
+      "phone": "+353 87 753 7550",
+      "email": ""
+    },
+    {
+      "name": "Crew Control",
+      "phone": "+353 1 568 9053",
+      "email": ""
+    },
+    {
+      "name": "Training Academy",
+      "phone": "+353 1 886 2901",
+      "email": "TrainingAcademyQueries@aerlingus.com"
+    },
+    {
+      "name": "Trip Trades",
+      "phone": "",
+      "email": "ttq@aerlingus.com"
+    },
+    {
+      "name": "Crew Planning",
+      "phone": "",
+      "email": "crq@aerlingus.com"
+    },
+    {
+      "name": "AskHR",
+      "phone": "+353 1 886 2828",
+      "email": "askhr@aerlingus.com"
+    },
+    {
+      "name": "Staff Travel Queries",
+      "phone": "",
+      "email": "stafftravelq@aerlingus.com"
+    },
+    {
+      "name": "Staff Travel Refunds",
+      "phone": "",
+      "email": "staffrefunds@aerlingus.com"
+    },
+    {
+      "name": "Transport",
+      "phone": "+353 1 886 2865",
+      "email": "transport@aerlingus.com"
+    },
+    {
+      "name": "Transport (Out of Hours)",
+      "phone": "+353 1 454 4070",
+      "email": ""
+    }
+  ],
   "destinations": [
     {
       "name": "Boston",
@@ -2683,7 +2815,7 @@ window.CSM_DATA = {
       "code": "MIA",
       "category": "Hotel",
       "field": "Hotel Name",
-      "value": "Hilton Aventura ",
+      "value": "Hilton Aventura",
       "format": "Name",
       "source": "AIMS / eCrew",
       "sourceDate": "2026-11-01",
@@ -2960,6 +3092,318 @@ window.CSM_DATA = {
       "category": "Turnaround Coordination",
       "field": "Duty Manager Phone",
       "value": "+1 305 526 2054",
+      "format": "International format",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Airport & Arrival",
+      "field": "Airport Name",
+      "value": "Nashville International Airport",
+      "format": "Terminal Name",
+      "source": "aerlingus.com - Airport Information",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Airport & Arrival",
+      "field": "Terminal",
+      "value": "Main Terminal",
+      "format": "Termninal Number",
+      "source": "aerlingus.com - Airport Information",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel",
+      "field": "Hotel Name",
+      "value": "Tempo by Hilton",
+      "format": "Name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel",
+      "field": "Hotel Address",
+      "value": "127 Rosa L Parks Blvd Nashville , TN 37203",
+      "format": "Hotel Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel",
+      "field": "Hotel Telephone",
+      "value": "+1 629-224-3959",
+      "format": "International format",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel",
+      "field": "Hotel Email",
+      "value": "bnapo.hotel@hilton.com",
+      "format": "Email Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel Amenities",
+      "field": "Accepts Packages",
+      "value": "Yes (Fee Payable)",
+      "format": "Yes / no / details",
+      "source": "Confirmed with Hotel",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel Amenities",
+      "field": "In-room fridge availability",
+      "value": "Yes",
+      "format": "Yes / no / details",
+      "source": "Confirmed with Hotel",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel Amenities",
+      "field": "Food discount",
+      "value": "Yes",
+      "format": "Yes / no / details",
+      "source": "Confirmed with Hotel",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel Amenities",
+      "field": "Fitness Centre",
+      "value": "Yes",
+      "format": "Yes / no / details",
+      "source": "Confirmed with Hotel",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Hotel Amenities",
+      "field": "Pool / Rooftop Bar",
+      "value": "None",
+      "format": "Yes / no / details",
+      "source": "Confirmed with Hotel",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Crew Transport",
+      "field": "Transport Provider",
+      "value": "SkyHop Global",
+      "format": "Company Name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Crew Transport",
+      "field": "Transport Email",
+      "value": "dispatch@skyhopglobal.com",
+      "format": "Email Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Crew Transport",
+      "field": "Transport Phone",
+      "value": "+1 954-573-1717",
+      "format": "International format",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Crew Transport",
+      "field": "Arrival Pick Up Point",
+      "value": "Awaiting Confirmation",
+      "format": "Airport Location",
+      "source": "Transport Company",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Awaiting Update"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Crew Transport",
+      "field": "Departure Pick Up",
+      "value": "2hrs",
+      "format": "Time Before Departure",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Handling & Operations",
+      "field": "Airport handling agent",
+      "value": "Fenix Aviation",
+      "format": "Company name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Handling & Operations",
+      "field": "Station Manager",
+      "value": "Aubrey Thomas",
+      "format": "Name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Handling & Operations",
+      "field": "Station Manager Email",
+      "value": "bna.ops@fenix-aviation.com",
+      "format": "Email Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Handling & Operations",
+      "field": "Station Manager Phone",
+      "value": "+1-917-946-3184",
+      "format": "International format",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager",
+      "value": "Jalani Harleston-Melton",
+      "format": "Name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager Email",
+      "value": "bna.paxsupervisor@fenix-aviation.com",
+      "format": "Email Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager Phone",
+      "value": "+1 917-508-9369",
+      "format": "International format",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager",
+      "value": "Zach Long",
+      "format": "Name",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager Email",
+      "value": "bna.manager@fenix-aviation.com",
+      "format": "Email Address",
+      "source": "AIMS / eCrew",
+      "sourceDate": "2026-11-01",
+      "checkedDate": "2026-11-07",
+      "status": "Verified"
+    },
+    {
+      "destination": "Nashville",
+      "code": "BNA",
+      "category": "Turnaround Coordination",
+      "field": "Duty Manager Phone",
+      "value": "+1 917-508-9898",
       "format": "International format",
       "source": "AIMS / eCrew",
       "sourceDate": "2026-11-01",

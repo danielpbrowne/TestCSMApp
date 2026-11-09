@@ -1,6 +1,6 @@
 {
-  "name": "CSM Companion",
-  "short_name": "CSM Companion",
+  "name": "Flight Companion",
+  "short_name": "Flight Companion",
   "description": "Offline-first long-haul cabin service reference",
   "start_url": "./",
   "scope": "./",
