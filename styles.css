@@ -30,12 +30,10 @@ body{margin:0;background:var(--canvas);color:var(--ink);font:19px/1.55 Urbanist,
 .update-button{display:flex;align-items:center;gap:6px;border:1px solid #697a82;background:transparent;border-radius:20px;padding:7px 12px;color:#f7f7f2;font:600 14px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}
 .update-button:hover:not(:disabled){background:#294354}.update-button:disabled{opacity:.7;cursor:wait}.update-button>span:first-child{font-size:18px;line-height:1}
 main{max-width:1120px;margin:auto;padding:0 30px}
-.welcome{position:relative;display:flex;min-height:270px;margin-top:35px;background:var(--navy);overflow:hidden;border-radius:8px;color:#f8f8f3;padding:30px 54px;align-items:center;box-shadow:var(--shadow)}
+.welcome{position:relative;display:flex;min-height:180px;margin-top:35px;background:var(--navy);overflow:hidden;border-radius:8px;color:#f8f8f3;padding:30px 54px;align-items:center;box-shadow:var(--shadow)}
 .welcome-copy{position:relative;z-index:1;max-width:490px}
 .eyebrow,.section-kicker{font:13px ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;color:#e3c66d}
 .welcome-copy>.eyebrow{font-size:16px;font-weight:700}
-.welcome h1{font:500 clamp(37px,calc(5.4vw - 3px),55px)/1.03 Outfit,Urbanist,sans-serif;letter-spacing:-1.8px;margin:14px 0}
-.welcome h1 em{color:#e5d59d;font-weight:500}
 .intro{font-size:18px;color:#d5dedf;max-width:410px;margin:17px 0 0}
 .welcome-art{position:absolute;right:5%;top:0;width:40%;height:100%;opacity:.95}
 .sun{position:absolute;width:172px;height:172px;border:1px solid #d6c17445;border-radius:50%;top:48px;right:27px;background:radial-gradient(circle,#d8c57a12 0 55%,transparent 56%)}
@@ -122,8 +120,8 @@ main{max-width:1120px;margin:auto;padding:0 30px}
 .aircraft-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-top:1px solid #e5e8e2;margin-top:15px;padding-top:13px}.aircraft-stats div,.registration-list{display:flex;flex-direction:column;gap:4px;min-width:0}.aircraft-stats span,.registration-list>span{font:700 13px ui-monospace,SFMono-Regular,monospace;letter-spacing:.04em;color:#7c898b}.aircraft-stats strong{font-size:16px;color:var(--navy-deep);overflow-wrap:anywhere}.registration-list{border-top:1px solid #e5e8e2;margin-top:12px;padding-top:11px}.registration-list p{font:10px/1.6 ui-monospace,SFMono-Regular,monospace;color:var(--muted);margin:0;overflow-wrap:anywhere}
 footer{display:flex;justify-content:space-between;padding:26px 0 35px;margin-top:37px;border-top:1px solid #d2dadd;font:12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;color:#76858a}
 footer i{font-style:normal;color:#c29339}#cache-note{letter-spacing:0;text-transform:none;font:14px Urbanist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#718084}
-@media(max-width:760px){main{padding:0 17px}.topbar{height:66px;padding:0 17px}.welcome{min-height:261px;margin-top:18px;padding:26px 26px}.welcome-art{width:45%;right:-9%;opacity:.55}.welcome-copy{max-width:420px}.quick-links{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:32px}.card-grid,.destination-list{grid-template-columns:repeat(2,1fr)}.section-head{display:block}.section-head p{margin-top:6px}footer{gap:12px;flex-wrap:wrap}}
-@media(max-width:480px){.welcome{padding:24px 22px;min-height:256px}.welcome h1{font-size:clamp(35px,calc(10vw - 3px),39px);line-height:1.04}.intro{max-width:260px;font-size:17px}.welcome-art{right:-28%;width:65%;opacity:.36}.search-box{height:50px}.search-box kbd{display:none}.card-grid,.destination-list,.detail-layout{grid-template-columns:1fr}.quick-links button{height:68px;padding:12px}.quick-links button b{right:12px;bottom:14px}.offline-pill{font-size:11px}.icon-button{padding:7px 10px}}
+@media(max-width:760px){main{padding:0 17px}.topbar{height:66px;padding:0 17px}.welcome{min-height:170px;margin-top:18px;padding:26px 26px}.welcome-art{width:45%;right:-9%;opacity:.55}.welcome-copy{max-width:420px}.quick-links{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:32px}.card-grid,.destination-list{grid-template-columns:repeat(2,1fr)}.section-head{display:block}.section-head p{margin-top:6px}footer{gap:12px;flex-wrap:wrap}}
+@media(max-width:480px){.welcome{padding:24px 22px;min-height:155px}.intro{max-width:260px;font-size:17px}.welcome-art{right:-28%;width:65%;opacity:.36}.search-box{height:50px}.search-box kbd{display:none}.card-grid,.destination-list,.detail-layout{grid-template-columns:1fr}.quick-links button{height:68px;padding:12px}.quick-links button b{right:12px;bottom:14px}.offline-pill{font-size:11px}.icon-button{padding:7px 10px}}
 @media(max-width:600px){
   html{scroll-padding-top:82px}
   body{overflow-x:hidden;-webkit-text-size-adjust:100%}
@@ -132,8 +130,8 @@ footer i{font-style:normal;color:#c29339}#cache-note{letter-spacing:0;text-trans
   .top-actions{gap:9px}.offline-pill{font-size:11px;white-space:nowrap}.icon-button{min-height:40px}
   .update-button{width:36px;height:36px;justify-content:center;padding:0}.update-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   main{width:100%;padding:0 15px}
-  .welcome{min-height:196px;margin-top:14px;padding:20px 21px;border-radius:7px}
-  .welcome-copy{max-width:100%}.welcome h1{font-size:clamp(37px,calc(10.5vw - 3px),41px);letter-spacing:-1.2px;margin:10px 0}
+  .welcome{min-height:145px;margin-top:14px;padding:20px 21px;border-radius:7px}
+  .welcome-copy{max-width:100%}
   .intro{max-width:285px;font-size:17px;line-height:1.5;margin-top:12px}
   .welcome-art{right:-6%;width:39%;opacity:.36}.sun{width:128px;height:128px;right:8px;top:42px}.route-line{width:195px;height:106px;top:85px;right:-27px}.plane{right:102px;top:83px;font-size:16px}.art-label{right:0;bottom:20px;font-size:10px}
   .search-wrap{margin:14px 0 17px;max-width:none}.search-box{height:52px;padding:0 14px;border-radius:6px}.search-box input{font-size:20px}
