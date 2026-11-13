@@ -88,8 +88,38 @@ function renderCards(cards) {
     if (card[0] === 'BASIC') return renderBasicFdpCard(card);
     if (card[0] === 'ACCLIMATISATION') return renderAcclimatisationCard(card);
     if (card[0] === 'NINTH CREW MEMBER') return renderNinthCrewCard(card);
+    if (card[0] === 'COMMISSION') return renderCommissionCard();
     return `<article class="card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])}</p><div class="card-foot">NOT POPULATED FROM THE PROVIDED WORKBOOKS</div></article>`;
   }).join('')}</div>`;
+}
+
+function renderCommissionCard() {
+  return `<article class="card commission-card"><span class="card-tag">COMMISSION</span><h3>Commission Calculator</h3>
+    <p>Current rate of commission paid is <strong>12%</strong> of sales recorded. All sales are pooled and divided by the number of operating crew.</p>
+    <p>You can use the calculator below if you would like to estimate commission for your flight.</p>
+    <div class="commission-calculator" id="commission-calculator">
+      <label class="flight-field"><span>Total Recorded Sales (€)</span><input id="commission-sales" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label>
+      <label class="flight-field"><span>No. of Crew</span><input id="commission-crew" type="number" min="1" step="1" inputmode="numeric" placeholder="8"></label>
+      <div class="commission-result"><span>Estimated Commission Total</span><strong id="commission-result">—</strong><small>per crew member</small></div>
+    </div>
+  </article>`;
+}
+
+function initCommissionCalculator() {
+  const calculator = content.querySelector('#commission-calculator');
+  if (!calculator) return;
+  const sales = calculator.querySelector('#commission-sales');
+  const crew = calculator.querySelector('#commission-crew');
+  const result = calculator.querySelector('#commission-result');
+  const currency = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' });
+  const calculate = () => {
+    const salesValue = Number(sales.value);
+    const crewValue = Number(crew.value);
+    result.textContent = sales.value !== '' && crew.value !== '' && salesValue >= 0 && crewValue > 0
+      ? currency.format((salesValue * 0.12) / crewValue)
+      : '—';
+  };
+  calculator.addEventListener('input', calculate);
 }
 
 const basicFdpRows = [
@@ -382,8 +412,8 @@ function renderFlightInformation() {
         </section>
         <section class="flight-panel"><div class="flight-panel-head"><h3>Passenger Figures</h3></div>
           <div class="passenger-counts">
-            <label class="flight-field"><span>Business Class</span><input name="business" type="number" min="0" inputmode="numeric" placeholder="0"></label>
-            <label class="flight-field"><span>Premium Economy</span><input name="premiumEconomy" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+            <label class="flight-field"><span>Business Class</span><input name="business" type="number" min="0" max="30" step="1" inputmode="numeric" placeholder="0"></label>
+            <label class="flight-field"><span>Premium Economy</span><input name="premiumEconomy" type="number" min="0" max="28" step="1" inputmode="numeric" placeholder="0"></label>
             <label class="flight-field"><span>Economy</span><input name="economy" type="number" min="0" inputmode="numeric" placeholder="0"></label>
           </div>
           <div class="flight-fields passenger-extra">
@@ -404,6 +434,15 @@ function renderFlightInformation() {
 
   const form = content.querySelector('#flight-information-form');
   const saveStatus = content.querySelector('#flight-save-status');
+  const cappedPassengerFields = { business: 30, premiumEconomy: 28 };
+  const capPassengerCounts = () => {
+    Object.entries(cappedPassengerFields).forEach(([name, maximum]) => {
+      const field = form.elements[name];
+      const value = Number(field.value);
+      if (field.value !== '' && Number.isFinite(value) && value > maximum) field.value = String(maximum);
+      if (field.value !== '' && Number.isFinite(value) && value < 0) field.value = '0';
+    });
+  };
   let restoredSavedInfo = false;
   try {
     const currentSave = localStorage.getItem(flightInfoStorageKey);
@@ -423,6 +462,7 @@ function renderFlightInformation() {
     Object.entries(saved).forEach(([name, value]) => {
       if (form.elements[name]) form.elements[name].value = value;
     });
+    capPassengerCounts();
     restoredSavedInfo = Object.keys(saved).length > 0;
     if (restoredSavedInfo) saveStatus.textContent = 'Saved flight information restored from this device. Clear before the next flight.';
   } catch {
@@ -475,6 +515,7 @@ function renderFlightInformation() {
   };
 
   form.addEventListener('input', () => {
+    capPassengerCounts();
     updateFlightSummary();
     try {
       const values = Object.fromEntries(new FormData(form).entries());
@@ -508,6 +549,7 @@ function openSection(id) {
   content.innerHTML = heading('QUICK REFERENCE', section.title, section.desc)
     + (id === 'flight' ? '' : caution('This section has not been populated from the two provided workbooks yet.'))
     + renderCards(section.cards || []);
+  if (id === 'crew') initCommissionCalculator();
 }
 
 document.querySelectorAll('.quick-links button').forEach(button => {
