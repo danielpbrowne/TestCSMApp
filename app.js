@@ -31,10 +31,10 @@ const sections = {
   crew: {
     title: 'Crew Admin', desc: 'Crew payments, credits, expenses and admin references.',
     cards: [
-      ['CREDITS', 'Credits & payment dates', 'Current credit rules, values, payroll periods and payment dates.'],
+      ['CREDITS', 'Credits & payment dates', 'Select a pay period to view its payroll and credit dates.'],
       ['COMMISSION', 'Commission', 'Current commission policy, calculation and payroll timing.'],
-      ['EXPENSES', 'Expenses & allowances', 'Current expense rates, receipts, claim process and overnight allowances.'],
-      ['ADMIN', 'Other crew admin', 'Current MyView, roster, swaps and trip trade guidance.']
+      ['BID WINDOWS', 'Bid Windows', 'Select a roster period to view its key dates.'],
+      ['EXPENSES', 'Expenses & allowances', 'Select an overnight location to view the allowance rate.']
     ]
   },
   contacts: { title: 'Useful Contacts & Links', desc: '' }
@@ -89,8 +89,185 @@ function renderCards(cards) {
     if (card[0] === 'ACCLIMATISATION') return renderAcclimatisationCard(card);
     if (card[0] === 'NINTH CREW MEMBER') return renderNinthCrewCard(card);
     if (card[0] === 'COMMISSION') return renderCommissionCard();
+    if (card[0] === 'BID WINDOWS') return renderBidWindowsCard();
+    if (card[0] === 'CREDITS') return renderCreditDatesCard();
+    if (card[0] === 'EXPENSES') return renderOvernightAllowancesCard();
     return `<article class="card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>${escapeHtml(card[2])}</p><div class="card-foot">NOT POPULATED FROM THE PROVIDED WORKBOOKS</div></article>`;
   }).join('')}</div>`;
+}
+
+const overnightAllowanceGroups = [
+  { name: 'Ireland - EUR', currency: '€', durations: { '10 hours': 62.11, '24 hours': 114.36, '34 hours': 176.46, '48 hours': 228.71, '58 hours': 290.82, '72 hours': 343.07 } },
+  { name: 'UK - GBP', currency: '£', durations: { '10 hours': 44.02, '24 hours': 79.87, '34 hours': 123.89, '48 hours': 159.74, '58 hours': 203.76, '72 hours': 239.61 } },
+  { name: 'Rome - EUR', currency: '€', durations: { '10 hours': 95.34, '24 hours': 143.00, '34 hours': 238.34, '48 hours': 286.00, '58 hours': 381.34, '72 hours': 429.00 } },
+  { name: 'Brussels (Sim.) - EUR', currency: '€', durations: { '10 hours': 88.55, '24 hours': 132.83, '34 hours': 221.38, '48 hours': 265.65, '58 hours': 354.20, '72 hours': 398.48 } },
+  { name: 'USA - US$', currency: 'US$ ', roles: { Captain: [178, 343, 506, 670], 'First Officer': [162, 311, 461, 608], 'Cabin Manager': [172, 321, 471, 618], 'Cabin Crew': [162, 311, 461, 608] }, bands: ['Up to 42 hours', '42–66 hours', '66–90 hours', '90–114 hours'] },
+  { name: 'Canada - CAD$', currency: 'CAD$ ', roles: { Captain: [198, 183], 'First Officer': [180, 166], 'Cabin Manager': [190, 176], 'Cabin Crew': [180, 166] }, bands: ['Up to 42 hours', 'Additional nights'] },
+  { name: 'Canary Islands / Malaga - EUR', currency: '€', durations: { '10 hours': 89.45, '24 hours': 134.18 } },
+  { name: 'Madrid - EUR', currency: '€', durations: { '10 hours': 105.24, '24 hours': 157.85 } },
+  { name: 'Faro - EUR', currency: '€', durations: { '10 hours': 61.60, '24 hours': 92.40 } },
+  { name: 'Lisbon - EUR', currency: '€', durations: { '10 hours': 66.36, '24 hours': 99.55 } },
+  { name: 'Amsterdam - EUR', currency: '€', durations: { '10 hours': 81.40, '24 hours': 122.10 } },
+  { name: 'Santorini - EUR', currency: '€', durations: { '10 hours': 64.82, '24 hours': 97.24 } },
+  { name: 'Dusseldorf - EUR', currency: '€', durations: { '10 hours': 64.71, '24 hours': 97.08 } },
+  { name: 'Berlin - EUR', currency: '€', durations: { '10 hours': 87.81, '24 hours': 131.73 } },
+  { name: 'Paris - EUR', currency: '€', durations: { '10 hours': 116.05, '24 hours': 174.08 } },
+  { name: 'Nice - EUR', currency: '€', durations: { '10 hours': 71.86, '24 hours': 107.80 } },
+  { name: 'Bordeaux - EUR', currency: '€', durations: { '10 hours': 93.50, '24 hours': 140.25 } },
+  { name: 'Marseille - EUR', currency: '€', durations: { '10 hours': 103.76, '24 hours': 155.65 } },
+  { name: 'Toulouse - EUR', currency: '€', durations: { '10 hours': 71.86, '24 hours': 107.80 } },
+  { name: 'Izmir, Turkey - TRY', currency: 'TRY ', durations: { '10 hours': 214.00, '24 hours': 320.00 } }
+];
+
+function renderOvernightAllowancesCard() {
+  const options = overnightAllowanceGroups.map((group, index) => `<option value="${index}">${escapeHtml(group.name)}</option>`).join('');
+  return `<article class="card overnight-allowance-card"><span class="card-tag">EXPENSES</span><h3>Overnight Allowances</h3>
+    <p>Rates from the supplied notice, effective 23 July 2024. Select the location and duration; select your role where required.</p>
+    <div class="overnight-allowance-controls">
+      <label class="flight-field"><span>Location</span><select id="allowance-location"><option value="">Select location</option>${options}</select></label>
+      <label class="flight-field"><span>Duration</span><select id="allowance-duration" disabled><option value="">Select duration</option></select></label>
+      <label class="flight-field allowance-role-field" hidden><span>Crew Role</span><select id="allowance-role"><option value="">Select role</option><option>Captain</option><option>First Officer</option><option>Cabin Manager</option><option>Cabin Crew</option></select></label>
+    </div>
+    <div class="overnight-allowance-result" id="allowance-result" aria-live="polite"><span>Allowance</span><strong>Select location and duration</strong></div>
+  </article>`;
+}
+
+function initOvernightAllowances() {
+  const location = content.querySelector('#allowance-location');
+  const duration = content.querySelector('#allowance-duration');
+  const roleField = content.querySelector('.allowance-role-field');
+  const role = content.querySelector('#allowance-role');
+  const result = content.querySelector('#allowance-result');
+  if (!location || !duration || !role || !result) return;
+  let selectedGroup = null;
+  const updateResult = () => {
+    if (!selectedGroup || duration.value === '') {
+      result.innerHTML = '<span>Allowance</span><strong>Select location and duration</strong>';
+      return;
+    }
+    let amount;
+    if (selectedGroup.roles) {
+      amount = role.value ? selectedGroup.roles[role.value][Number(duration.value)] : null;
+    } else {
+      amount = Object.values(selectedGroup.durations)[Number(duration.value)];
+    }
+    result.innerHTML = amount == null
+      ? '<span>Allowance</span><strong>Select crew role</strong>'
+      : `<span>${escapeHtml(selectedGroup.name)} · ${escapeHtml(duration.options[duration.selectedIndex].textContent)}${role.value && selectedGroup.roles ? ` · ${escapeHtml(role.value)}` : ''}</span><strong>${escapeHtml(selectedGroup.currency)}${Number(amount).toFixed(2)}</strong>`;
+  };
+  location.addEventListener('change', () => {
+    selectedGroup = location.value === '' ? null : overnightAllowanceGroups[Number(location.value)];
+    const bands = selectedGroup ? (selectedGroup.bands || Object.keys(selectedGroup.durations)) : [];
+    duration.innerHTML = `<option value="">Select duration</option>${bands.map((band, index) => `<option value="${index}">${escapeHtml(band)}</option>`).join('')}`;
+    duration.disabled = !selectedGroup;
+    roleField.hidden = !selectedGroup?.roles;
+    role.value = '';
+    updateResult();
+  });
+  duration.addEventListener('change', updateResult);
+  role.addEventListener('change', updateResult);
+}
+
+const creditPeriods = [
+  ['Fnt.01', '28/12/2025', '10/01/2026', '07/01/2026', '08/12/2025', '21/12/2025'],
+  ['Fnt.02', '11/01/2026', '24/01/2026', '21/01/2026', '22/12/2025', '04/01/2026'],
+  ['Fnt.03', '25/01/2026', '07/02/2026', '04/02/2026', '05/01/2026', '18/01/2026'],
+  ['Fnt.04', '08/02/2026', '21/02/2026', '18/02/2026', '19/01/2026', '01/02/2026'],
+  ['Fnt.05', '22/02/2026', '07/03/2026', '04/03/2026', '02/02/2026', '15/02/2026'],
+  ['Fnt.06', '08/03/2026', '21/03/2026', '18/03/2026', '16/02/2026', '01/03/2026'],
+  ['Fnt.07', '22/03/2026', '04/04/2026', '01/04/2026', '02/03/2026', '15/03/2026'],
+  ['Fnt.08', '05/04/2026', '18/04/2026', '15/04/2026', '16/03/2026', '29/03/2026'],
+  ['Fnt.09', '19/04/2026', '02/05/2026', '29/04/2026', '30/03/2026', '12/04/2026'],
+  ['Fnt.10', '03/05/2026', '16/05/2026', '13/05/2026', '13/04/2026', '26/04/2026'],
+  ['Fnt.11', '17/05/2026', '30/05/2026', '27/05/2026', '27/04/2026', '10/05/2026'],
+  ['Fnt.12', '31/05/2026', '13/06/2026', '10/06/2026', '11/05/2026', '24/05/2026'],
+  ['Fnt.13', '14/06/2026', '27/06/2026', '24/06/2026', '25/05/2026', '07/06/2026'],
+  ['Fnt.14', '28/06/2026', '11/07/2026', '08/07/2026', '08/06/2026', '21/06/2026'],
+  ['Fnt.15', '12/07/2026', '25/07/2026', '22/07/2026', '22/06/2026', '05/07/2026'],
+  ['Fnt.16', '26/07/2026', '08/08/2026', '05/08/2026', '06/07/2026', '19/07/2026'],
+  ['Fnt.17', '09/08/2026', '22/08/2026', '19/08/2026', '20/07/2026', '02/08/2026'],
+  ['Fnt.18', '23/08/2026', '05/09/2026', '02/09/2026', '03/08/2026', '16/08/2026'],
+  ['Fnt.19', '06/09/2026', '19/09/2026', '16/09/2026', '17/08/2026', '30/08/2026'],
+  ['Fnt.20', '20/09/2026', '03/10/2026', '30/09/2026', '31/08/2026', '13/09/2026'],
+  ['Fnt.21', '04/10/2026', '17/10/2026', '14/10/2026', '14/09/2026', '27/09/2026'],
+  ['Fnt.22', '18/10/2026', '31/10/2026', '28/10/2026', '28/09/2026', '11/10/2026'],
+  ['Fnt.23', '01/11/2026', '14/11/2026', '11/11/2026', '12/10/2026', '25/10/2026'],
+  ['Fnt.24', '15/11/2026', '28/11/2026', '25/11/2026', '26/10/2026', '08/11/2026'],
+  ['Fnt.25', '29/11/2026', '12/12/2026', '09/12/2026', '09/11/2026', '22/11/2026'],
+  ['Fnt.26 **', '13/12/2026', '26/12/2026', '23/12/2026', '23/11/2026', '06/12/2026']
+];
+
+function renderCreditDatesCard() {
+  const options = creditPeriods.map((period, index) => `<option value="${index}">${period[0]}</option>`).join('');
+  return `<article class="card credit-dates-card"><span class="card-tag">CREDITS</span><h3>Credits &amp; Payment Dates</h3>
+    <p>Select a pay period to view its payroll dates and the duty period for which credits are paid. Credits current value is <strong>€5.83</strong>.</p>
+    <label class="flight-field credit-period-select"><span>Pay Period</span><select id="credit-period"><option value="">Select pay period</option>${options}</select></label>
+    <div class="credit-period-details" id="credit-period-details" aria-live="polite"><p>Select a pay period to display its dates.</p></div>
+  </article>`;
+}
+
+function initCreditDates() {
+  const selector = content.querySelector('#credit-period');
+  const details = content.querySelector('#credit-period-details');
+  if (!selector || !details) return;
+  selector.addEventListener('change', () => {
+    if (selector.value === '') {
+      details.innerHTML = '<p>Select a pay period to display its dates.</p>';
+      return;
+    }
+    const [period, payrollStart, payrollEnd, payDate, creditStart, creditEnd] = creditPeriods[Number(selector.value)];
+    const fields = [
+      ['Payroll Period Start Date', payrollStart], ['Payroll Period End Date', payrollEnd],
+      ['Credit Period Start Date', creditStart], ['Credit Period End Date', creditEnd], ['Pay Date', payDate]
+    ];
+    details.innerHTML = `<h4>${escapeHtml(period.replace(' **', ''))}</h4><dl>${fields.map(([label, value]) => `<div${label === 'Pay Date' ? ' class="credit-pay-date"' : ''}><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+  });
+}
+
+const bidWindowPeriods = [
+  ['RP 11-2026', '27-Jul-26', '9-Aug-26', '20-Aug-26', '7-Sep-26', '4-Oct-26', '5-Oct-26', '1-Nov-26'],
+  ['RP 12-2026', '24-Aug-26', '6-Sep-26', '17-Sep-26', '5-Oct-26', '1-Nov-26', '2-Nov-26', '29-Nov-26'],
+  ['RP 13-2026', '21-Sep-26', '4-Oct-26', '15-Oct-26', '2-Nov-26', '29-Nov-26', '30-Nov-26', '27-Dec-26'],
+  ['RP 01-2027', '19-Oct-26', '1-Nov-26', '12-Nov-26', '30-Nov-26', '27-Dec-26', '28-Dec-26', '24-Jan-27'],
+  ['RP 02-2027', '16-Nov-26', '29-Nov-26', '10-Dec-26', '28-Dec-26', '24-Jan-27', '25-Jan-27', '21-Feb-27'],
+  ['RP 03-2027', '14-Dec-26', '27-Dec-26', '7-Jan-27', '25-Jan-27', '21-Feb-27', '22-Feb-27', '21-Mar-27'],
+  ['RP 04-2027', '11-Jan-27', '24-Jan-27', '4-Feb-27', '22-Feb-27', '21-Mar-27', '22-Mar-27', '18-Apr-27'],
+  ['RP 05-2027', '8-Feb-27', '21-Feb-27', '4-Mar-27', '22-Mar-27', '18-Apr-27', '19-Apr-27', '16-May-27'],
+  ['RP 06-2027', '8-Mar-27', '21-Mar-27', '1-Apr-27', '19-Apr-27', '16-May-27', '17-May-27', '13-Jun-27'],
+  ['RP 07-2027', '5-Apr-27', '18-Apr-27', '29-Apr-27', '17-May-27', '13-Jun-27', '14-Jun-27', '11-Jul-27'],
+  ['RP 08-2027', '3-May-27', '16-May-27', '27-May-27', '14-Jun-27', '11-Jul-27', '12-Jul-27', '8-Aug-27'],
+  ['RP 09-2027', '31-May-27', '13-Jun-27', '24-Jun-27', '12-Jul-27', '8-Aug-27', '9-Aug-27', '5-Sep-27'],
+  ['RP 10-2027', '28-Jun-27', '11-Jul-27', '22-Jul-27', '9-Aug-27', '5-Sep-27', '6-Sep-27', '3-Oct-27'],
+  ['RP 11-2027', '26-Jul-27', '8-Aug-27', '19-Aug-27', '6-Sep-27', '3-Oct-27', '4-Oct-27', '31-Oct-27'],
+  ['RP 12-2027', '23-Aug-27', '5-Sep-27', '16-Sep-27', '4-Oct-27', '31-Oct-27', '1-Nov-27', '28-Nov-27'],
+  ['RP 13-2027', '20-Sep-27', '3-Oct-27', '14-Oct-27', '1-Nov-27', '28-Nov-27', '29-Nov-27', '26-Dec-27']
+];
+
+function renderBidWindowsCard() {
+  const options = bidWindowPeriods.map((period, index) => `<option value="${index}">${period[0]}</option>`).join('');
+  return `<article class="card bid-window-card"><span class="card-tag">BID WINDOWS</span><h3>Bid Windows</h3>
+    <p>Select a roster period to view its key dates.</p>
+    <label class="flight-field bid-window-select"><span>Roster Period</span><select id="bid-window-period"><option value="">Select roster period</option>${options}</select></label>
+    <div class="bid-window-details" id="bid-window-details" aria-live="polite"><p>Select a roster period to display its dates.</p></div>
+  </article>`;
+}
+
+function initBidWindows() {
+  const selector = content.querySelector('#bid-window-period');
+  const details = content.querySelector('#bid-window-details');
+  if (!selector || !details) return;
+  selector.addEventListener('change', () => {
+    if (selector.value === '') {
+      details.innerHTML = '<p>Select a roster period to display its dates.</p>';
+      return;
+    }
+    const [period, open, close, publication, , , requestStart, requestEnd] = bidWindowPeriods[Number(selector.value)];
+    const fields = [
+      ['Open Bid Window', open], ['Close Bid Window', close], ['Roster Publication', publication],
+      ['WR & PR Request Period', `${requestStart} to ${requestEnd}`]
+    ];
+    details.innerHTML = `<h4>${escapeHtml(period)}</h4><dl>${fields.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+  });
 }
 
 function renderCommissionCard() {
@@ -547,9 +724,14 @@ function openSection(id) {
   const section = sections[id];
   if (!section) return;
   content.innerHTML = heading('QUICK REFERENCE', section.title, section.desc)
-    + (id === 'flight' ? '' : caution('This section has not been populated from the two provided workbooks yet.'))
+    + (['flight', 'crew'].includes(id) ? '' : caution('This section has not been populated from the two provided workbooks yet.'))
     + renderCards(section.cards || []);
-  if (id === 'crew') initCommissionCalculator();
+  if (id === 'crew') {
+    initCommissionCalculator();
+    initBidWindows();
+    initCreditDates();
+    initOvernightAllowances();
+  }
 }
 
 document.querySelectorAll('.quick-links button').forEach(button => {
