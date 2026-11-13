@@ -104,11 +104,11 @@ const basicFdpRows = [
 
 function renderBasicFdpCard(card) {
   const reportOptions = basicFdpRows.map(([reportTime], index) => `<option value="${index}">${reportTime}</option>`).join('');
-  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>Select the report-time band in the applicable reference time zone (Dublin for B, outstation local time for D), then choose the number of sectors operated.</p><form class="acclim-checker" id="basic-fdp-checker"><label class="acclim-field"><span>Report time (reference time)</span><select name="reportTime" required><option value="">Select report-time band</option>${reportOptions}</select></label><label class="acclim-field"><span>Sectors operated</span><select name="sectors" required><option value="">Select sectors</option><option value="1">1–2 sectors</option><option value="2">3 sectors</option><option value="3">4 sectors</option></select></label><div class="acclim-actions"><button class="acclim-calculate" type="submit">Check maximum FDP</button><button class="acclim-reset" type="reset">Reset</button></div><div class="acclim-result fdp-basic-result" id="basic-fdp-result" role="status" aria-live="polite" hidden></div></form><p class="acclim-note">For an X (unknown) acclimatisation result, use the sector-based FDP caps shown in the acclimatisation checker.</p></article>`;
+  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>Select your report-time band in the applicable reference time zone to which you are acclimatised (Refer to Acclimatisation Checker below), then choose the number of sectors to be operated.</p><form class="acclim-checker" id="basic-fdp-checker"><label class="acclim-field"><span>Report time (reference time)</span><select name="reportTime" required><option value="">Select report-time band</option>${reportOptions}</select></label><label class="acclim-field"><span>Sectors operated</span><select name="sectors" required><option value="">Select sectors</option><option value="1">1–2 sectors</option><option value="2">3 sectors</option><option value="3">4 sectors</option></select></label><div class="acclim-actions"><button class="acclim-calculate" type="submit">Check maximum FDP</button><button class="acclim-reset" type="reset">Reset</button></div><div class="acclim-result fdp-basic-result" id="basic-fdp-result" role="status" aria-live="polite" hidden></div></form><p class="acclim-note">For an X (unknown) acclimatisation result, use the sector-based FDP caps shown in the acclimatisation checker.</p></article>`;
 }
 
 function renderAcclimatisationCard(card) {
-  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>When reporting for duty in Dublin, assume you are acclimatised to Dublin local time (your home-base reference time). The time from that report until your next report at an outstation, together with the time difference at the next report, determines your acclimatisation state.</p><form class="acclim-checker" id="acclim-checker"><label class="acclim-field"><span>Time difference: Dublin to next duty local time</span><select name="difference" required><option value="">Select time difference</option><option value="0">Less than 4 hours</option><option value="1">4 hours but less than 6 hours</option><option value="2">6 hours but less than 9 hours</option><option value="3">9 hours but less than 12 hours</option></select></label><label class="acclim-field"><span>Time from Dublin report to next report</span><select name="elapsed" required><option value="">Select elapsed time</option><option value="0">Less than 48 hours</option><option value="1">48 to 71 hours 59 minutes</option><option value="2">72 to 95 hours 59 minutes</option><option value="3">96 to 119 hours 59 minutes</option><option value="4">120 hours or more</option></select></label><div class="acclim-actions"><button class="acclim-calculate" type="submit">Check acclimatisation</button><button class="acclim-reset" type="reset">Reset</button></div><div class="acclim-result" id="acclim-result" role="status" aria-live="polite" hidden></div></form><p class="acclim-note">This checker uses the information from EASA ORO.FTL.105 Definitions.</p></article>`;
+  return `<article class="card fdp-card"><span class="card-tag">${escapeHtml(card[0])}</span><h3>${escapeHtml(card[1])}</h3><p>When reporting for duty in Ireland, it is generally assumed you are acclimatised to Home Base local time. The time from that report time until your next report at an outstation, together with the time difference at the next report, determines your acclimatisation state.</p><form class="acclim-checker" id="acclim-checker"><label class="acclim-field"><span>Time Difference between Home Base &amp; Next Report Location</span><select name="difference" required><option value="">Select time difference</option><option value="0">Less than 4 hours</option><option value="1">4 hours but less than 6 hours</option><option value="2">6 hours but less than 9 hours</option><option value="3">9 hours but less than 12 hours</option></select></label><label class="acclim-field"><span>Time from Home Base Report until next report time</span><select name="elapsed" required><option value="">Select elapsed time</option><option value="0">Less than 48 hours</option><option value="1">48 to 71 hours 59 minutes</option><option value="2">72 to 95 hours 59 minutes</option><option value="3">96 to 119 hours 59 minutes</option><option value="4">120 hours or more</option></select></label><div class="acclim-actions"><button class="acclim-calculate" type="submit">Check acclimatisation</button><button class="acclim-reset" type="reset">Reset</button></div><div class="acclim-result" id="acclim-result" role="status" aria-live="polite" hidden></div></form><p class="acclim-note">This checker uses the information from EASA ORO.FTL.105 Definitions.</p></article>`;
 }
 
 content.addEventListener('submit', event => {
@@ -184,13 +184,60 @@ function renderDestinationProfile(destination) {
   const cards = [...grouped.entries()].map(([category, categoryFacts]) => {
     if (category === 'Handling & Operations') return renderHandlingCard(categoryFacts);
     if (category === 'Turnaround Coordination') return renderTurnaroundCard(categoryFacts);
+    if (category === 'Hotel Amenities') return renderHotelAmenities(categoryFacts);
     const records = categoryFacts.map(fact => {
       const mapLink = destinationMapLink(fact, destination);
-      return `<div class="profile-record"><div class="profile-record-heading"><strong>${escapeHtml(fact.field)}</strong></div><div class="profile-value">${escapeHtml(fact.value || 'No value entered')}</div>${mapLink}</div>`;
+      const contact = destinationContactValue(fact);
+      const value = contact || `<div class="profile-value">${escapeHtml(fact.value || 'No value entered')}</div>`;
+      return `<div class="profile-record"><div class="profile-record-heading"><strong>${escapeHtml(fact.field)}</strong></div>${value}${mapLink}</div>`;
     }).join('');
     return `<article class="card profile-card"><span class="card-tag">${escapeHtml(category)}</span><div class="profile-fields">${records}</div></article>`;
   }).join('');
   return metadata + `<div class="card-grid profile-grid">${cards}</div>`;
+}
+
+function renderHotelAmenities(facts) {
+  const labels = {
+    'accepts packages': 'Packages',
+    'in-room fridge': 'Fridge',
+    'in-room fridge availability': 'Fridge',
+    'food discount': 'F&B Discount',
+    'fitness centre': 'Gym'
+  };
+  const items = facts.map(fact => {
+    const field = fact.field.trim().toLowerCase();
+    const label = labels[field] || (field === 'pool' ? 'Pool' : fact.field);
+    const value = String(fact.value || '').trim();
+    const normalized = value.toLowerCase();
+    let status;
+    if (normalized === 'yes') {
+      status = '<span class="amenity-status is-yes" role="img" aria-label="Yes">✓</span>';
+    } else if (normalized === 'yes (fee payable)') {
+      status = '<span class="amenity-status-group" role="img" aria-label="Yes, fee payable"><span class="amenity-status is-yes" aria-hidden="true">✓</span><span class="amenity-status is-fee-mark" aria-hidden="true">$</span></span>';
+    } else if (normalized === 'no') {
+      status = '<span class="amenity-status is-no" role="img" aria-label="No">×</span>';
+    } else if (normalized === 'none') {
+      status = '<span class="amenity-status is-no" role="img" aria-label="None">×</span>';
+    } else if (normalized === 'by request') {
+      status = '<span class="amenity-status is-request" role="img" aria-label="By request"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.25 4.25h13.5v9.5H9l-4.25 3v-3H3.25z"/><path d="M6.5 9h.01M10 9h.01M13.5 9h.01"/></svg></span>';
+    } else if (normalized === 'food & drinks') {
+      status = `<span class="amenity-status-group" role="img" aria-label="Food and drinks">${mealAmenityIcon()}${drinkAmenityIcon()}</span>`;
+    } else if (normalized === 'food only') {
+      status = `<span class="amenity-status-group" role="img" aria-label="Food only">${mealAmenityIcon()}</span>`;
+    } else {
+      status = `<span class="amenity-value">${escapeHtml(value || 'Not listed')}</span>`;
+    }
+    return `<div class="amenity-item"><strong>${escapeHtml(label)}</strong>${status}</div>`;
+  }).join('');
+  return `<article class="card profile-card hotel-amenities-card"><span class="card-tag">Hotel Amenities</span><div class="amenity-grid">${items}</div></article>`;
+}
+
+function mealAmenityIcon() {
+  return '<span class="amenity-status is-food" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 2v5M2 2v3a2 2 0 0 0 4 0V2M4 7v11M14 2v16M14 2c3 2 4 5 0 8"/></svg></span>';
+}
+
+function drinkAmenityIcon() {
+  return '<span class="amenity-status is-food" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 3h14l-7 7-7-7ZM10 10v7M6 18h8M15 2l2-1"/></svg></span>';
 }
 
 function destinationMapLink(fact, destination) {
@@ -199,6 +246,13 @@ function destinationMapLink(fact, destination) {
   const query = [...new Set(queryParts.filter(Boolean))].join(', ');
   const url = `https://maps.apple.com/place?address=${encodeURIComponent(query)}`;
   return `<a class="map-action" href="${escapeHtml(url)}" target="_blank" rel="noopener">OPEN IN MAPS ↗</a>`;
+}
+
+function destinationContactValue(fact) {
+  const field = fact.field.trim().toLowerCase();
+  if (/email$/.test(field)) return contactAction('EMAIL', fact.value, 'email');
+  if (/(?:phone|telephone)$/.test(field)) return contactAction('CALL', fact.value, 'phone');
+  return '';
 }
 
 function contactAction(label, value, kind) {
